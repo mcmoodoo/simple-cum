@@ -2,5 +2,14 @@
 src = "src"
 out = "out"
 libs = ["lib"]
+remappings = [
+  "aqua/=lib/aqua/",
+  "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+  "@1inch/solidity-utils/=lib/solidity-utils/"
+]
+solc_version = "0.8.30"
+via_ir = true
+optimizer = true
+optimizer_runs = 1_000_000
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
