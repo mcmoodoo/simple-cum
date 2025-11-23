@@ -11,6 +11,9 @@ setup-local-xycswap:
 deploy-trader:
 	@DEPLOYER_PK=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 forge script script/DeploySimpleTrader.s.sol:DeploySimpleTrader --rpc-url http://127.0.0.1:8545 --broadcast -vv
 
+deploy-trader-from-strategy:
+	@bash script/deploy_trader_from_strategy.sh
+
 export-deployments:
 	@bash script/export_deployments.sh
 
@@ -28,7 +31,7 @@ swap-1-0 amount:
 
 setup-deploy-approve:
 	@just setup-local-xycswap
-	@just deploy-trader
+	@just deploy-trader-from-strategy
 	@just export-deployments
 	@just approve-token0 1000000000000000000 
 	@just approve-token1 1000000000000000000 
