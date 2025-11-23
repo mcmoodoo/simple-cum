@@ -13,3 +13,15 @@ deploy-trader:
 
 export-deployments:
 	@bash script/export_deployments.sh
+
+approve-token0 amount:
+	@bash script/approve_token.sh 0 {{amount}}
+
+approve-token1 amount:
+	@bash script/approve_token.sh 1 {{amount}}
+
+swap-0-1 amount:
+	@bash script/swap.sh 0-1 {{amount}}
+
+swap-1-0 amount:
+	@bash script/swap.sh 1-0 {{amount}}
