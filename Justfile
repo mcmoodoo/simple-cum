@@ -1,6 +1,7 @@
 default:
 	@just --list
 set shell := ["bash", "-cu"]
+set dotenv-load := true
 
 deploy-xycswap:
 	@DEPLOYER_PK=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 forge script script/DeployXYCSwap.s.sol:DeployXYCSwap --rpc-url http://127.0.0.1:8545 --broadcast -vv
@@ -47,3 +48,25 @@ allowance token_index:
 
 balances:
 	@bash script/balances.sh
+
+# ========= Base mainnet deployments (requires ENV: INFURA_BASE_MAINNET_RPC, DEPLOYER_PK) =========
+
+deploy-xycswap-base-wallet:
+	@AQUA_ADDR=0x499943e74fb0ce105688beee8ef2abec5d936d31 \
+	forge script script/DeployXYCSwap.s.sol:DeployXYCSwap \
+		--rpc-url "${INFURA_BASE_MAINNET_RPC:?INFURA_BASE_MAINNET_RPC required}" \
+		--broadcast \
+		--private-key "${DEPLOYER_PK:?DEPLOYER_PK required}" -vv
+
+deploy-trader-base-wallet:
+	@AQUA_ADDR=0x499943e74fb0ce105688beee8ef2abec5d936d31 \
+	forge script script/DeploySimpleTrader.s.sol:DeploySimpleTrader \
+		--rpc-url "${INFURA_BASE_MAINNET_RPC:?INFURA_BASE_MAINNET_RPC required}" \
+		--broadcast \
+		--private-key "${DEPLOYER_PK:?DEPLOYER_PK required}" -vv
+
+deploy-mocks-base-wallet:
+	@forge script script/DeployMocks.s.sol:DeployMocks \
+		--rpc-url "${INFURA_BASE_MAINNET_RPC:?INFURA_BASE_MAINNET_RPC required}" \
+		--broadcast \
+		--private-key "${DEPLOYER_PK:?DEPLOYER_PK required}" -vv
