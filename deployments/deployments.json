@@ -1,7 +1,7 @@
 {
   "chainId": 31337,
   "Aqua": {
-    "address": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+    "address": "0x0dcd1bf9a1b36ce34237eeafef220932846bcd82",
     "abi": [
       {
         "type": "function",
@@ -840,7 +840,7 @@
     ]
   },
   "SimpleTrader": {
-    "address": "0xb7f8bc63bbcad18155201308c8f3540b07f84f5e",
+    "address": "0x9a676e781a523b5d0c0e43731313a708cb607508",
     "abi": [
       {
         "type": "constructor",

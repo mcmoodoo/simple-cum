@@ -25,3 +25,10 @@ swap-0-1 amount:
 
 swap-1-0 amount:
 	@bash script/swap.sh 1-0 {{amount}}
+
+setup-deploy-approve:
+	@just setup-local-xycswap
+	@just deploy-trader
+	@just export-deployments
+	@just approve-token0 1000000000000000000 
+	@just approve-token1 1000000000000000000 

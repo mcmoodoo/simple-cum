@@ -59,6 +59,9 @@ contract SetupLocalXYCSwap is Script {
         uint256 deployerPk = vm.envUint("DEPLOYER_PK");
         uint256 makerPk = vm.envOr("MAKER_PK", deployerPk);
         address maker = vm.addr(makerPk);
+        // Optional taker address (defaults to anvil[1]) - checksummed
+        address taker = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8;
+        if (vm.envExists("TAKER_ADDR")) taker = vm.envAddress("TAKER_ADDR");
 
         // Optional preexisting addresses
         address aquaAddr = address(0);
@@ -98,6 +101,9 @@ contract SetupLocalXYCSwap is Script {
         token1.mint(maker, amount1 * 2);
         token0.mint(msg.sender, amount0);
         token1.mint(msg.sender, amount1);
+        // Also mint to taker for swaps
+        token0.mint(taker, amount0);
+        token1.mint(taker, amount1);
         console2.log("Deployed token0:", address(token0));
         console2.log("Deployed token1:", address(token1));
         vm.stopBroadcast();
@@ -135,6 +141,7 @@ contract SetupLocalXYCSwap is Script {
         vm.serializeAddress(root, "aqua", aquaAddr);
         vm.serializeAddress(root, "xycSwap", xycSwapAddr);
         vm.serializeAddress(root, "maker", maker);
+        vm.serializeAddress(root, "taker", taker);
         vm.serializeAddress(root, "token0", address(token0));
         vm.serializeAddress(root, "token1", address(token1));
         vm.serializeUint(root, "feeBps", feeBps);
