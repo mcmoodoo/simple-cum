@@ -44,3 +44,6 @@ aqua-check:
 
 allowance token_index:
 	@bash script/allowance_check.sh {{token_index}}
+
+balances:
+	@bash script/balances.sh
