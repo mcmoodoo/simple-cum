@@ -35,3 +35,9 @@ setup-deploy-approve:
 
 strategy-hash:
 	@bash script/strategy_hash.sh
+
+aqua-check:
+	@bash script/aqua_check.sh
+
+allowance token_index:
+	@bash script/allowance_check.sh {{token_index}}
