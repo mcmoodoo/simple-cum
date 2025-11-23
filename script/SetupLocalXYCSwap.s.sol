@@ -128,6 +128,31 @@ contract SetupLocalXYCSwap is Script {
         console2.logBytes32(strategyHash);
         vm.stopBroadcast();
 
-        console2.log("Setup complete.");
+        // Persist essential strategy data for takers
+        vm.createDir("deployments", true);
+        string memory root = "strategy";
+        vm.serializeUint(root, "chainId", block.chainid);
+        vm.serializeAddress(root, "aqua", aquaAddr);
+        vm.serializeAddress(root, "xycSwap", xycSwapAddr);
+        vm.serializeAddress(root, "maker", maker);
+        vm.serializeAddress(root, "token0", address(token0));
+        vm.serializeAddress(root, "token1", address(token1));
+        vm.serializeUint(root, "feeBps", feeBps);
+        vm.serializeBytes32(root, "salt", bytes32(salt));
+        vm.serializeBytes32(root, "strategyHash", strategyHash);
+        // write top-level first
+        string memory top = vm.serializeString(root, "note", "XYCSwap strategy parameters");
+        vm.writeJson(top, "deployments/strategy.json");
+        // then write tokens/amounts subkeys
+        string memory arr = "tokens";
+        vm.serializeAddress(arr, "0", address(token0));
+        string memory tokensJson = vm.serializeAddress(arr, "1", address(token1));
+        vm.writeJson(tokensJson, "deployments/strategy.json", ".tokens");
+        arr = "amounts";
+        vm.serializeUint(arr, "0", amount0);
+        string memory amountsJson = vm.serializeUint(arr, "1", amount1);
+        vm.writeJson(amountsJson, "deployments/strategy.json", ".amounts");
+
+        console2.log("Setup complete. Wrote deployments/strategy.json");
     }
 }
