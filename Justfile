@@ -32,3 +32,6 @@ setup-deploy-approve:
 	@just export-deployments
 	@just approve-token0 1000000000000000000 
 	@just approve-token1 1000000000000000000 
+
+strategy-hash:
+	@bash script/strategy_hash.sh
