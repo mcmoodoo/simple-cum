@@ -63,7 +63,8 @@ deploy-trader-base-wallet:
 	@AQUA_ADDR=0x499943e74fb0ce105688beee8ef2abec5d936d31 \
 	forge script script/DeploySimpleTrader.s.sol:DeploySimpleTrader \
 		--rpc-url "${INFURA_BASE_MAINNET_RPC:?INFURA_BASE_MAINNET_RPC required}" \
-		--broadcast \
+		--broadcast --verify \
+		--etherscan-api-key "${ETHERSCAN_API_KEY:?ETHERSCAN_API_KEY required}" \
 		--private-key "${DEPLOYER_PK:?DEPLOYER_PK required}" -vv
 
 deploy-mocks-base-wallet:
