@@ -840,7 +840,7 @@
     ]
   },
   "SimpleTrader": {
-    "address": "0x0dcd1bf9a1b36ce34237eeafef220932846bcd82",
+    "address": "0x4a679253410272dd5232b3ff7cf5dbb88f295319",
     "abi": [
       {
         "type": "constructor",

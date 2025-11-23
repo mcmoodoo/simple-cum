@@ -94,9 +94,13 @@ contract SetupLocalXYCSwap is Script {
             console2.log("Using existing XYCSwap:", xycSwapAddr);
         }
 
-        // Step 2: Deploy two mock tokens and mint to maker and this script's address
+        // Step 2: Deploy mock tokens and mint to maker, taker, and this script's address
         MiniERC20 token0 = new MiniERC20("TK0", "TK0");
         MiniERC20 token1 = new MiniERC20("TK1", "TK1");
+        // Additional mocked tokens for convenience
+        MiniERC20 mockUSDC = new MiniERC20("mockUSDC", "USDC");
+        MiniERC20 mockUSDT = new MiniERC20("mockUSDT", "USDT");
+        MiniERC20 mockDAI  = new MiniERC20("mockDAI",  "DAI");
         token0.mint(maker, amount0 * 2);
         token1.mint(maker, amount1 * 2);
         token0.mint(msg.sender, amount0);
@@ -106,6 +110,20 @@ contract SetupLocalXYCSwap is Script {
         token1.mint(taker, amount1);
         console2.log("Deployed token0:", address(token0));
         console2.log("Deployed token1:", address(token1));
+        // Mint balances for the additional mock tokens
+        uint256 extraMint = 1_000_000e18;
+        mockUSDC.mint(maker, extraMint);
+        mockUSDT.mint(maker, extraMint);
+        mockDAI.mint(maker,  extraMint);
+        mockUSDC.mint(taker, extraMint);
+        mockUSDT.mint(taker, extraMint);
+        mockDAI.mint(taker,  extraMint);
+        mockUSDC.mint(msg.sender, extraMint);
+        mockUSDT.mint(msg.sender, extraMint);
+        mockDAI.mint(msg.sender,  extraMint);
+        console2.log("Deployed mockUSDC:", address(mockUSDC));
+        console2.log("Deployed mockUSDT:", address(mockUSDT));
+        console2.log("Deployed mockDAI:", address(mockDAI));
         vm.stopBroadcast();
 
         // Step 3: Maker approves Aqua and ships strategy
@@ -144,6 +162,9 @@ contract SetupLocalXYCSwap is Script {
         vm.serializeAddress(root, "taker", taker);
         vm.serializeAddress(root, "token0", address(token0));
         vm.serializeAddress(root, "token1", address(token1));
+        vm.serializeAddress(root, "mockUSDC", address(mockUSDC));
+        vm.serializeAddress(root, "mockUSDT", address(mockUSDT));
+        vm.serializeAddress(root, "mockDAI",  address(mockDAI));
         vm.serializeUint(root, "feeBps", feeBps);
         vm.serializeBytes32(root, "salt", bytes32(salt));
         vm.serializeBytes32(root, "strategyHash", strategyHash);
